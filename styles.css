@@ -1,0 +1,74 @@
+ @font-face {
+	font-family: 'Jungle Adventurer';
+	src: url('fonts/JungleAdventurer.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	font-family: "Jungle Adventurer";
+	margin: 20px;
+	padding: 10px;
+	background-color: gainsboro;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+	justify-items: center;
+}
+
+.parent {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	grid-template-rows: repeat(12, 1fr);
+	gap: 5px;
+}
+
+.main {
+	grid-column: span 8 / span 8;
+	grid-row: span 8 / span 8;
+	grid-column-start: 3;
+	grid-row-start: 2;
+}
+
+.easy {
+	grid-column: span 2 / span 2;
+	grid-column-start: 3;
+	grid-row-start: 11;
+}
+
+.medium {
+	grid-column: span 2 / span 2;
+	grid-column-start: 6;
+	grid-row-start: 11;
+}
+
+.hard {
+	grid-column: span 2 / span 2;
+	grid-column-start: 9;
+	grid-row-start: 11;
+}
+
+.game-button {
+	font-family: "Jungle Adventurer", "Comic Sans MS", sans-serif;
+	font-size: 1.2rem;
+	font-weight: bold;
+	color: #fff;
+	padding: 14px 28px;
+	border: none;
+	border-radius: 12px;
+	background: linear-gradient(180deg, #ffcc00 0%, #ff9900 100%);
+	box-shadow: 0 6px #cc7a00, 0 8px 16px rgba(0, 0, 0, 0.3);
+	cursor: pointer;
+	transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.game-button:hover {
+	transform: scale(1.05);
+}
+
+.game-button:active {
+	transform: translateY(4px);
+	box-shadow: 0 2px #cc7a00, 0 4px 8px rgba(0, 0, 0, 0.3);
+}
