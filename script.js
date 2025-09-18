@@ -1,10 +1,10 @@
-const levelNumber = ({
+const	levelNumber = ({
 	easy: 1,
 	medium: 2,
 	hard: 3
 })
 
-const arrayImage = ["https://cdn-icons-png.flaticon.com/512/174/174854.png",
+const	arrayImage = ["https://cdn-icons-png.flaticon.com/512/174/174854.png",
 					"https://cdn-icons-png.flaticon.com/512/732/732190.png",
 					"https://cdn-icons-png.flaticon.com/512/5968/5968292.png",
 					"https://cdn-icons-png.flaticon.com/512/875/875209.png",
@@ -45,38 +45,50 @@ const arrayImage = ["https://cdn-icons-png.flaticon.com/512/174/174854.png",
 
 ];
 
-function	putImage(num)
+function	hideCards()
 {
-	let	arr = [];
-	let	used = new Set();
-	let	main = document.querySelector(".main");
+	let	imgs = document.querySelectorAll("img");
 
-	main.innerHTML = "";
-	num *= num;
-	num /= 2;
-	while (num > 0) {
-		let randomNum = Math.floor(Math.random() * arrayImage.length);
-		if (!used.has(randomNum)) {
-			used.add(randomNum);
-			arr.push(arrayImage[randomNum]);
-			num--;
-		}
-	}
-
-	arr.forEach(element => {
-		let	elm = document.createElement("img");
-		elm.setAttribute("src", `${element}`);
-		elm.setAttribute("width", "50px");
-		elm.setAttribute("height", "auto");
-		main.append(elm);
+	imgs.forEach(element => {
 		console.log(element);
+		element.classList.add("hide");
 	});
 }
 
-function	prepare(num)
-{
-	document.documentElement.style.setProperty("--level", `${num}`);
-	console.log(num);
+function	putImage(num) {
+	let	arr = [];
+	let	used = new Set();
+	let	main = document.querySelector(".main");
+	let	total = num * num;
+
+	main.innerHTML = "";
+	while (arr.length < total) {
+		let randomNum = Math.floor(Math.random() * arrayImage.length);
+		if (!used.has(randomNum)) {
+			used.add(randomNum);
+			arr.push(arrayImage[randomNum], arrayImage[randomNum]);
+		}
+	}
+
+	arr = arr.sort(() => Math.random() - 0.5);
+	arr.forEach(element => {
+		let elm = document.createElement("img");
+		elm.setAttribute("src", element);
+		elm.setAttribute("width", "50px");
+		elm.setAttribute("height", "auto");
+		main.append(elm);
+	});
+
+	setTimeout(() => {
+		hideCards();
+	}, 1000);
+}
+
+function	prepare(num) {
+	const	cards = num * num;
+	const	side = Math.sqrt(cards);
+
+	document.documentElement.style.setProperty("--level", side - 1);
 	putImage(num);
 }
 
