@@ -26,14 +26,34 @@ const arrayImage = ["https://cdn-icons-png.flaticon.com/512/174/174854.png",
 					"https://cdn-icons-png.flaticon.com/512/226/226770.png",
 					"https://cdn-icons-png.flaticon.com/512/731/731985.png",
 					"https://cdn-icons-png.flaticon.com/512/732/732250.png",
-					"https://cdn-icons-png.flaticon.com/512/882/882730.png"
+					"https://cdn-icons-png.flaticon.com/512/882/882730.png",
+					"https://cdn-icons-png.flaticon.com/512/10769/10769428.png",
+					"https://cdn-icons-png.flaticon.com/512/3800/3800024.png",
+					"https://cdn-icons-png.flaticon.com/512/174/174874.png",
+					"https://cdn-icons-png.flaticon.com/512/3536/3536505.png",
+					"https://cdn-icons-png.flaticon.com/512/2103/2103665.png",
+					"https://cdn-icons-png.flaticon.com/512/8760/8760206.png",
+					"https://cdn-icons-png.flaticon.com/512/5968/5968252.png",
+					"https://cdn-icons-png.flaticon.com/512/5968/5968259.png",
+					"https://cdn-icons-png.flaticon.com/512/5968/5968358.png",
+					"https://cdn-icons-png.flaticon.com/512/5968/5968342.png",
+					"https://cdn-icons-png.flaticon.com/512/5968/5968304.png",
+					"https://cdn-icons-png.flaticon.com/512/5968/5968534.png",
+					"https://cdn-icons-png.flaticon.com/512/3669/3669986.png",
+					"https://cdn-icons-png.flaticon.com/512/3813/3813611.png",
+					"https://cdn-icons-png.flaticon.com/512/17349/17349599.png"
+
 ];
 
-function prepare(num)
+function	putImage(num)
 {
-	let arr = [];
-	let used = new Set();
+	let	arr = [];
+	let	used = new Set();
+	let	main = document.querySelector(".main");
 
+	main.innerHTML = "";
+	num *= num;
+	num /= 2;
 	while (num > 0) {
 		let randomNum = Math.floor(Math.random() * arrayImage.length);
 		if (!used.has(randomNum)) {
@@ -42,33 +62,35 @@ function prepare(num)
 			num--;
 		}
 	}
-	return(arr);
+
+	arr.forEach(element => {
+		let	elm = document.createElement("img");
+		elm.setAttribute("src", `${element}`);
+		elm.setAttribute("width", "50px");
+		elm.setAttribute("height", "auto");
+		main.append(elm);
+		console.log(element);
+	});
 }
 
-function getImage(levelNum)
+function	prepare(num)
+{
+	document.documentElement.style.setProperty("--level", `${num}`);
+	console.log(num);
+	putImage(num);
+}
+
+function	create(levelNum)
 {
 	if(levelNum == 1)
 		return(prepare(4));
 	if(levelNum == 2)
-		return(prepare(8));
+		return(prepare(6));
 	if(levelNum == 3)
-		return(prepare(16));
+		return(prepare(8));
 }
 
-function create(levelNum)
-{
-	let main = document.querySelector('.main');
-	while(levelNum)
-	{
-		let newElem = document.createElement("div");
-		main.appendChild(newElem)
-		const content = getImage(levelNum);
-		newElem.appendChild("<img src=''");
-		levelNum--;
-	}
-}
-
-function handleLevel(id)
+function	handleLevel(id)
 {
 	create(levelNumber[id])
 }

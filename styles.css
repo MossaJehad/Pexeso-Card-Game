@@ -5,6 +5,10 @@
 	font-style: normal;
 }
 
+:root {
+	--level: 4;
+}
+
 body {
 	font-family: "Jungle Adventurer";
 	margin: 20px;
@@ -19,17 +23,23 @@ body {
 }
 
 .parent {
-	display: grid;
-	grid-template-columns: repeat(12, 1fr);
-	grid-template-rows: repeat(12, 1fr);
-	gap: 5px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	gap: 100px;
+	margin-top: 50px;
 }
 
 .main {
-	grid-column: span 8 / span 8;
-	grid-row: span 8 / span 8;
-	grid-column-start: 3;
-	grid-row-start: 2;
+	display: grid;
+	grid-template-columns: repeat(calc(var(--level) + 1), 1fr);
+	grid-template-rows: repeat(calc(var(--level) + 1), 1fr);
+	gap: 66px;
+	max-height: max-content;
+	margin-bottom: 10px;
+	border: #f7c377 3px solid;
+	border-radius: 2%;
+	padding: 0.333rem;
 }
 
 .easy {
