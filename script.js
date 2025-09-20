@@ -1,8 +1,22 @@
-const	levelNumber = ({
+const	SECRET = "MossaJehad";
+
+function	encrypt(str) {
+	return (CryptoJS.AES.encrypt(str, SECRET).toString());
+}
+
+function	decrypt(str) {
+	try {
+		return (CryptoJS.AES.decrypt(str, SECRET).toString(CryptoJS.enc.Utf8));
+	} catch (e) {
+		return (null);
+	}
+}
+
+const	levelNumber = {
 	easy: 1,
 	medium: 2,
 	hard: 3
-})
+};
 
 const	arrayImage = ["https://cdn-icons-png.flaticon.com/512/174/174854.png",
 					"https://cdn-icons-png.flaticon.com/512/732/732190.png",
@@ -42,46 +56,73 @@ const	arrayImage = ["https://cdn-icons-png.flaticon.com/512/174/174854.png",
 					"https://cdn-icons-png.flaticon.com/512/3669/3669986.png",
 					"https://cdn-icons-png.flaticon.com/512/3813/3813611.png",
 					"https://cdn-icons-png.flaticon.com/512/17349/17349599.png"
-
 ];
 
-function	hideCards()
-{
-	let	imgs = document.querySelectorAll("img");
+function	shuffled(arr) {
+	return ([...arr].sort(() => Math.random() - 0.5));
+}
 
-	imgs.forEach(element => {
-		console.log(element);
-		element.classList.add("hide");
+function	hideCards() {
+	const	defaultCard = "https://i.ibb.co/5gYHnMFg/42-design-1.png";
+	let		imgs = document.querySelectorAll(".main img.card");
+	imgs.forEach(img => {
+		img.src = defaultCard;
 	});
 }
 
+function	flipCard(imgEl) {
+	const	enc = imgEl.dataset.face;
+	if (!enc)
+		return ;
+	const	url = decrypt(enc);
+	if (url)
+		imgEl.src = url;
+	else
+		console.warn("Failed to decrypt face for card");
+}
+
 function	putImage(num) {
-	let	arr = [];
-	let	used = new Set();
-	let	main = document.querySelector(".main");
-	let	total = num * num;
-
+	const	main = document.querySelector(".main");
+	const	total = num * num;
+	const	needCount = total / 2;
 	main.innerHTML = "";
-	while (arr.length < total) {
-		let randomNum = Math.floor(Math.random() * arrayImage.length);
-		if (!used.has(randomNum)) {
-			used.add(randomNum);
-			arr.push(arrayImage[randomNum], arrayImage[randomNum]);
-		}
-	}
 
-	arr = arr.sort(() => Math.random() - 0.5);
-	arr.forEach(element => {
-		let elm = document.createElement("img");
-		elm.setAttribute("src", element);
-		elm.setAttribute("width", "50px");
-		elm.setAttribute("height", "auto");
-		main.append(elm);
+	const pool = shuffled(arrayImage).slice(0, Math.min(needCount, arrayImage.length));
+	while (pool.length < needCount)
+		pool.push(...arrayImage.slice(0, Math.min(arrayImage.length, needCount - pool.length)));
+
+	let	arr = [...pool, ...pool];
+	arr = shuffled(arr);
+	arr.forEach((faceUrl, idx) => {
+		const elm = document.createElement("img");
+		elm.classList.add("card");
+		elm.src = faceUrl;
+		elm.width = 70;
+		elm.style.height = "auto";
+		elm.style.borderRadius = "10px";
+		elm.style.cursor = "pointer";
+		elm.dataset.face = encrypt(faceUrl);
+		elm.dataset.index = String(idx);
+		elm.addEventListener("click", () => {
+		const backUrl = "https://i.ibb.co/5gYHnMFg/42-design-1.png";
+		if (elm.src === backUrl)
+			flipCard(elm);
+		else
+			elm.src = backUrl;
+		});
+		main.appendChild(elm);
 	});
 
+	let	time = 1000;
+	if (num < 6)
+		time *= 1;
+	else if (num == 6)
+		time *= 2;
+	else
+		time *= 4;
 	setTimeout(() => {
 		hideCards();
-	}, 1000);
+	}, time);
 }
 
 function	prepare(num) {
@@ -92,17 +133,15 @@ function	prepare(num) {
 	putImage(num);
 }
 
-function	create(levelNum)
-{
-	if(levelNum == 1)
-		return(prepare(4));
-	if(levelNum == 2)
-		return(prepare(6));
-	if(levelNum == 3)
-		return(prepare(8));
+function	create(levelNum) {
+	if (levelNum == 1)
+		return (prepare(4));
+	if (levelNum == 2)
+		return (prepare(6));
+	if (levelNum == 3)
+		return (prepare(8));
 }
 
-function	handleLevel(id)
-{
-	create(levelNumber[id])
+function	handleLevel(id) {
+	create(levelNumber[id]);
 }
