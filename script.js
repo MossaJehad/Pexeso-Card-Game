@@ -97,7 +97,7 @@ function	putImage(num) {
 		const elm = document.createElement("img");
 		elm.classList.add("card");
 		elm.src = faceUrl;
-		elm.width = 70;
+		elm.width = 50;
 		elm.style.height = "auto";
 		elm.style.borderRadius = "10px";
 		elm.style.cursor = "pointer";

@@ -34,7 +34,7 @@ body {
 	display: grid;
 	grid-template-columns: repeat(calc(var(--level) + 1), 1fr);
 	grid-template-rows: repeat(calc(var(--level) + 1), 1fr);
-	gap: 66px;
+	gap: 25px;
 	max-height: max-content;
 	margin-bottom: 10px;
 	border: #f7c377 3px solid;
